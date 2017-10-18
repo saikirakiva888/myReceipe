@@ -8,6 +8,7 @@ class ChefsIndexTest < ActionDispatch::IntegrationTest
   def setup
     @chef = Chef.create!(chefname: "John", email: "john@gmail.com", password: "password", password_confirmation: "password")
     @chef2 = Chef.create!(chefname: "Jenney", email: "jenney@gmail.com", password: "password", password_confirmation: "password")
+    @admin = Chef.create!(chefname: "Jen", email: "jen@gmail.com", password: "password", password_confirmation: "password", admin: true)
   end
   
   test "should show chef index" do
@@ -23,7 +24,7 @@ class ChefsIndexTest < ActionDispatch::IntegrationTest
   end
   
   test "should delete chef" do
-    sign_in_as(@chef, "password")
+    sign_in_as(@admin, "password")
     get chefs_path
     assert_template 'chefs/index'
     #assert_select "a[href=?]", chef_path(@chef), text: "Delete this chef"
